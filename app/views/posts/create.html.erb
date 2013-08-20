@@ -1,0 +1,50 @@
+<h1>Resultados</h1>
+
+<%= form_for :post, url: posts_path do |f| %>
+    <p>
+      <%= f.label :search %><br>
+      <%= f.text_field :query %>
+    </p>
+   
+    <p>
+      <%= f.submit 'Buscar' %>
+    </p>
+<% end %>
+
+<% if @videos.class != Hash %>
+	<% @videos.each do |video| %>
+
+		<div class="video"> 
+			<div class="title"> <%= video['EpisodeMetaData']['Title'] %> </div>
+			<a href="<%= video['EpisodeMetaData']['player-url']%>">  
+
+				<img src="<%= video['EpisodeMetaData']['cached-thumbnail-url'] %>" > 
+			</a>
+
+			<% video['SearchFields']['FIELD'].each do |field| %>
+
+				<% if field['NAME'] == 'teaser'  %>
+					<div class="teaser"> <%= field['content'] %>  </div>
+				<% end %>
+
+			<% end %>
+		</div>
+	<% end %>
+<% else %>
+
+	<div> 
+		<div class="title"> <%= @videos['EpisodeMetaData']['Title'] %> </div>
+		<a href="<%= @videos['EpisodeMetaData']['player-url']%>">  
+
+			<img src="<%= @videos['EpisodeMetaData']['cached-thumbnail-url'] %>" > 
+		</a>
+
+		<% @videos['SearchFields']['FIELD'].each do |field| %>
+
+			<% if field['NAME'] == 'teaser'  %>
+				<div class="teaser"> <%= field['content'] %>  </div>
+			<% end %>
+
+		<% end %>
+	</div>
+<% end %>
